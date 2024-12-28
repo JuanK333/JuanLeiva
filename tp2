@@ -1,0 +1,31 @@
+class AgeDescriptor:
+    def __get__(self, instance, owner):
+        return instance._age
+
+    def __set__(self, instance, value):
+        if value < 0:
+            raise ValueError("La edad no puede ser negativa.")
+        
+        
+        if instance.genero == 'hombre' and value == 64:
+            print("El empleado está a un año de la jubilación.")
+        elif instance.genero == 'mujer' and value == 59:
+            print("La empleada está a un año de la jubilación.")
+        
+        instance._age = value
+
+
+class Empleado:
+    edad = AgeDescriptor()
+
+    def __init__(self, nombre, edad, genero, salario):
+        self.nombre = nombre
+        self.genero = genero.lower()  # Normalizar el género
+        self.edad = edad
+        self.salario = salario
+
+    def __str__(self):
+        return (f"Empleado: {self.nombre}, Edad: {self.edad}, "
+                f"Género: {self.genero}, Salario: ${self.salario}")
+
+
