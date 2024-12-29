@@ -1,0 +1,15 @@
+class Empleados:
+    def ver_nombre(self):
+        return self.nombre
+
+class Gerente(Empleados):
+    def __init__(self, nombre):
+        self.nombre = nombre
+
+    def __str__(self):
+        return f"Gerente: {self.nombre}"
+
+    def __add__(self, apellido):
+        
+        return Gerente(f"{self.nombre} {apellido}")
+
