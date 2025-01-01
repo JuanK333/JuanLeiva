@@ -1,0 +1,57 @@
+from functools import wraps
+
+# Decorador para informar sobre la creación de un registro
+def log_new_record(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print("=== Ingreso de nuevo registro ===")
+        result = func(*args, **kwargs)
+        print(f"Registro añadido: {result}")
+        return result
+    return wrapper
+
+# Decorador para informar sobre la eliminación de un registro
+def log_delete_record(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print("=== Eliminación de registro ===")
+        result = func(*args, **kwargs)
+        print(f"Registro eliminado: {result}")
+        return result
+    return wrapper
+
+# Decorador para informar sobre la actualización de un registro
+def log_update_record(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print("=== Actualización de registro ===")
+        result = func(*args, **kwargs)
+        print(f"Registro actualizado: {result}")
+        return result
+    return wrapper
+
+# Clase de gestión de base de datos
+class Database:
+    def __init__(self):
+        self.data = []
+
+    @log_new_record
+    def add_record(self, record):
+        self.data.append(record)
+        return record
+
+    @log_delete_record
+    def delete_record(self, record):
+        if record in self.data:
+            self.data.remove(record)
+            return record
+        return "Registro no encontrado"
+
+    @log_update_record
+    def update_record(self, old_record, new_record):
+        if old_record in self.data:
+            index = self.data.index(old_record)
+            self.data[index] = new_record
+            return new_record
+        return "Registro no encontrado"
+
